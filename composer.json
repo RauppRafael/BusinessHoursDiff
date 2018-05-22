@@ -1,5 +1,5 @@
 {
-  "name": "RauppRafael/BusinessHoursDiff",
+  "name": "rafael-raupp/business-hours-diff",
   "description": "A PHP library to calculate business hours between two dates.",
   "keywords": [
     "time",
@@ -8,7 +8,7 @@
     "composer",
     "package"
   ],
-  "license": "",
+  "license": "MIT",
   "authors": [
     {
       "name": "Rafael Raupp",
