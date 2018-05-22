@@ -1,0 +1,28 @@
+{
+  "name": "RauppRafael/BusinessHoursDiff",
+  "description": "A PHP library to calculate business hours between two dates.",
+  "keywords": [
+    "time",
+    "business hours",
+    "time diff",
+    "composer",
+    "package"
+  ],
+  "license": "",
+  "authors": [
+    {
+      "name": "Rafael Raupp",
+      "email": "raupperino@gmail.com"
+    }
+  ],
+  "type": "project",
+  "require": {
+    "php": ">=5.4",
+    "nesbot/carbon": "^1.28"
+  },
+  "autoload": {
+    "psr-4": {
+      "RauppRafael\\BusinessHoursDiff\\": "src/"
+    }
+  }
+}
