@@ -13,25 +13,58 @@ use Carbon\Carbon;
 class BusinessHoursDiff
 {
     /**
+     * Time in hours that the business opens
+     *
      * @var int
      */
     protected $businessStart;
 
     /**
+     * Time in hours that the business opens
+     *
      * @var int
      */
     protected $businessEnd;
+
+    /**
+     * The unit to which result should be converted to
+     *
+     * @var string
+     */
+    protected $unit;
 
     /**
      * BusinessHoursDiff constructor.
      *
      * @param int $businessStart
      * @param int $businessEnd
+     * @param string $unit
      */
-    public function __construct(int $businessStart, int $businessEnd)
+    public function __construct(int $businessStart, int $businessEnd, string $unit = 'min')
     {
         $this->businessStart = $businessStart;
         $this->businessEnd = $businessEnd;
+        $this->unit = $unit;
+    }
+
+    /**
+     * Sets the unit that the value should return
+     *
+     * Available units:
+     * min
+     *
+     * @param string $unit
+     * @return $this
+     */
+    public function unit(string $unit)
+    {
+        $availableUnits = ['min', 'minutes'];
+
+        if (in_array($unit, $availableUnits)) {
+            $this->unit = $unit;
+        }
+
+        return $this;
     }
 
     /**
@@ -126,6 +159,6 @@ class BusinessHoursDiff
      */
     protected function businessEnd(Carbon $date)
     {
-        return $date->copy()->addHours($this->businessEnd);
+        return $date->copy()->startOfDay()->addHours($this->businessEnd);
     }
 }
