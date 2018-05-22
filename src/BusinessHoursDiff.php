@@ -27,15 +27,44 @@ class BusinessHoursDiff
     protected $businessEnd;
 
     /**
+     * The unit to which result should be converted to
+     *
+     * @var string
+     */
+    protected $unit;
+
+    /**
      * BusinessHoursDiff constructor.
      *
      * @param int $businessStart
      * @param int $businessEnd
+     * @param string $unit
      */
-    public function __construct(int $businessStart, int $businessEnd)
+    public function __construct(int $businessStart, int $businessEnd, string $unit = 'min')
     {
         $this->businessStart = $businessStart;
         $this->businessEnd = $businessEnd;
+        $this->unit = $unit;
+    }
+
+    /**
+     * Sets the unit that the value should return
+     *
+     * Available units:
+     * min
+     *
+     * @param string $unit
+     * @return $this
+     */
+    public function unit(string $unit)
+    {
+        $availableUnits = ['min', 'minutes'];
+
+        if (in_array($unit, $availableUnits)) {
+            $this->unit = $unit;
+        }
+
+        return $this;
     }
 
     /**
