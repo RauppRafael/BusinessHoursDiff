@@ -13,11 +13,15 @@ use Carbon\Carbon;
 class BusinessHoursDiff
 {
     /**
+     * Time in hours that the business opens
+     *
      * @var int
      */
     protected $businessStart;
 
     /**
+     * Time in hours that the business opens
+     *
      * @var int
      */
     protected $businessEnd;
@@ -126,6 +130,6 @@ class BusinessHoursDiff
      */
     protected function businessEnd(Carbon $date)
     {
-        return $date->copy()->addHours($this->businessEnd);
+        return $date->copy()->startOfDay()->addHours($this->businessEnd);
     }
 }
