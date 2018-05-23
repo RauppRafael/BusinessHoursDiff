@@ -36,14 +36,14 @@ class BusinessHoursDiff
     /**
      * BusinessHoursDiff constructor.
      *
-     * @param int $businessStart
-     * @param int $businessEnd
+     * @param int|null $businessOpensAt
+     * @param int|null $businessClosesAt
      * @param string $unit
      */
-    public function __construct(int $businessStart = null, int $businessEnd = null, string $unit = 'min')
+    public function __construct(int $businessOpensAt = null, int $businessClosesAt = null, string $unit = 'min')
     {
-        $this->businessOpensAt = $businessStart;
-        $this->businessClosesAt = $businessEnd;
+        $this->businessOpensAt = $businessOpensAt;
+        $this->businessClosesAt = $businessClosesAt;
         $this->unit = $unit;
     }
 
