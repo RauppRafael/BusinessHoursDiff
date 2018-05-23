@@ -1,6 +1,6 @@
 <?php
 
-namespace RauppRafael\BusinessHoursDiff;
+namespace Raupp;
 
 use Carbon\Carbon;
 
