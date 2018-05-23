@@ -17,14 +17,14 @@ class BusinessHoursDiff
      *
      * @var int
      */
-    protected $businessStart;
+    protected $businessOpensAt;
 
     /**
      * Time in hours that the business opens
      *
      * @var int
      */
-    protected $businessEnd;
+    protected $businessClosesAt;
 
     /**
      * The unit to which result should be converted to
@@ -40,11 +40,35 @@ class BusinessHoursDiff
      * @param int $businessEnd
      * @param string $unit
      */
-    public function __construct(int $businessStart, int $businessEnd, string $unit = 'min')
+    public function __construct(int $businessStart = null, int $businessEnd = null, string $unit = 'min')
     {
-        $this->businessStart = $businessStart;
-        $this->businessEnd = $businessEnd;
+        $this->businessOpensAt = $businessStart;
+        $this->businessClosesAt = $businessEnd;
         $this->unit = $unit;
+    }
+
+    /**
+     * Sets the time that the business opens
+     *
+     * @param int $businessOpensAt
+     * @return $this
+     */
+    public function businessOpensAt(int $businessOpensAt)
+    {
+        $this->businessOpensAt = $businessOpensAt;
+        return $this;
+    }
+
+    /**
+     * Sets the time that the business closes
+     *
+     * @param int $businessClosesAt
+     * @return $this
+     */
+    public function businessClosesAt(int $businessClosesAt)
+    {
+        $this->businessClosesAt = $businessClosesAt;
+        return $this;
     }
 
     /**
@@ -75,9 +99,12 @@ class BusinessHoursDiff
      * @param Carbon $start
      * @param Carbon $end
      * @return int
+     * @throws \Exception
      */
     public function diff(Carbon $start, Carbon $end)
     {
+        if (!$this->businessOpensAt || !$this->businessClosesAt) throw new \Exception('Business hours not set');
+
         $start = $this->adjustDate($start);
         $end = $this->adjustDate($end);
 
@@ -148,7 +175,7 @@ class BusinessHoursDiff
      */
     protected function businessStart(Carbon $date)
     {
-        return $date->copy()->startOfDay()->addHours($this->businessStart);
+        return $date->copy()->startOfDay()->addHours($this->businessOpensAt);
     }
 
     /**
@@ -159,6 +186,6 @@ class BusinessHoursDiff
      */
     protected function businessEnd(Carbon $date)
     {
-        return $date->copy()->startOfDay()->addHours($this->businessEnd);
+        return $date->copy()->startOfDay()->addHours($this->businessClosesAt);
     }
 }
