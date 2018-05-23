@@ -125,15 +125,7 @@ class BusinessHoursDiff
             $currentDayBusinessEnd = $this->businessEnd($currentDayStart);
 
             if ($end->isSameDay($currentDay)) {
-
-                if ($end > $currentDayBusinessEnd) {
-                    $minutes += $currentDayBusinessStart->diffInMinutes($currentDayBusinessEnd);
-                }
-
-                if ($end->between($currentDayBusinessStart, $currentDayBusinessEnd)) {
-                    $minutes += $currentDay->diffInMinutes($end);
-                }
-                return $minutes;
+                return $minutes + $currentDayBusinessStart->diffInMinutes($end);
             }
 
             if ($start->isSameDay($currentDay)) {
