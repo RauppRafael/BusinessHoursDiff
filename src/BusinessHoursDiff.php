@@ -27,6 +27,18 @@ class BusinessHoursDiff
     protected $businessClosesAt;
 
     /**
+     * List of available units
+     *
+     * @var array
+     */
+    protected $availableUnits = [
+        'sec',
+        'seconds',
+        'min',
+        'minutes'
+    ];
+
+    /**
      * The unit to which result should be converted to
      *
      * @var string
@@ -82,9 +94,7 @@ class BusinessHoursDiff
      */
     public function unit(string $unit)
     {
-        $availableUnits = ['min', 'minutes'];
-
-        if (in_array($unit, $availableUnits)) {
+        if (in_array($unit, $this->availableUnits)) {
             $this->unit = $unit;
         }
 
@@ -114,7 +124,7 @@ class BusinessHoursDiff
         $currentDayStart = $start->copy()->startOfDay();
 
         if ($start->isSameDay($end)) {
-            $minutes = $start->diffInMinutes($end);
+            $minutes = $this->diffInUnit($start, $end);
 
             return $minutes;
         }
@@ -125,13 +135,13 @@ class BusinessHoursDiff
             $currentDayBusinessEnd = $this->businessEnd($currentDayStart);
 
             if ($end->isSameDay($currentDay)) {
-                return $minutes + $currentDayBusinessStart->diffInMinutes($end);
+                return $minutes + $this->diffInUnit($currentDayBusinessStart, $end);
             }
 
             if ($start->isSameDay($currentDay)) {
-                $minutes += $currentDayBusinessEnd->diffInMinutes($start);
+                $minutes += $this->diffInUnit($start, $currentDayBusinessEnd);
             } else {
-                $minutes += $currentDayBusinessStart->diffInMinutes($currentDayBusinessEnd);
+                $minutes += $this->diffInUnit($currentDayBusinessStart, $currentDayBusinessEnd);
             }
 
             $currentDay->nextWeekday();
@@ -139,6 +149,30 @@ class BusinessHoursDiff
         }
 
         return $minutes;
+    }
+
+    /**
+     * Calculates the difference between two dates using the selected unit
+     *
+     * @param Carbon $date1
+     * @param Carbon $date2
+     * @return int
+     */
+    protected function diffInUnit(Carbon $date1, Carbon $date2)
+    {
+        switch ($this->unit) {
+
+            case 'sec':
+            case 'seconds':
+                return $date1->diffInSeconds($date2);
+                break;
+
+            case 'min':
+            case 'minutes':
+                return $date1->diffInMinutes($date2);
+                break;
+
+        }
     }
 
     /**
